@@ -1,13 +1,14 @@
 version: "2"
 
 linters:
-  default: none
-  enable:
-    - logchecklint
+  default: standard
+#  default: none
+#  enable:
+#    - logchecklint
 
-linters-settings:
-  custom:
-    logchecklint:
-      type: module
-      description: "Linter for checking log messages"
-      original-url: github.com/manakowpavel/logchecklint
+#linters-settings:
+#  custom:
+#    logchecklint:
+#      type: module
+#      description: "Linter for checking log messages"
+#      original-url: github.com/manakowpavel/logchecklint

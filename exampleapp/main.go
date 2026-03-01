@@ -23,7 +23,9 @@ func main() {
 
     // Пример с zap
     zapLogger, _ := zap.NewProduction()
-    defer zapLogger.Sync()
+    defer func() {
+        _ = zapLogger.Sync()
+    }()
 
     zapLogger.Info("Starting zap logger")             // заглавная буква
     zapLogger.Info("starting zap logger ok")
