@@ -3,4 +3,4 @@ version: v2.10.1
 plugins:
   - module: 'github.com/manakowpavel/logchecklint'
     import: 'github.com/manakowpavel/logchecklint'
-    path: .
+    version: v0.1.0

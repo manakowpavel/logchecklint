@@ -1,6 +1,6 @@
 # logchecklint
 
-Go-линтер для проверки лог-записей, совместимый с [golangci-lint](https://golangci-lint.run/).
+Go-линтер для проверки лог-записей, который можно использовать вместе с [golangci-lint](https://golangci-lint.run/).
 
 Анализирует вызовы логгеров (`log/slog`, `go.uber.org/zap`) и проверяет сообщения на соответствие правилам.
 
@@ -29,68 +29,40 @@ slog.Info("server started")
 slog.Info("user authenticated successfully")
 ```
 
+
 ## Установка и запуск
 
-### Как standalone-линтер
+### Установка
+
+Рекомендуемый способ установки — через `go install`:
 
 ```bash
-# Сборка
-go build -o bin/logchecklint ./cmd/logchecklint
-
-# Запуск на проекте
-./bin/logchecklint ./...
+go install github.com/manakowpavel/logchecklint/cmd/logchecklint@v0.1.0
 ```
-
-### Как плагин для golangci-lint (Module Plugin System)
-
-**Рекомендуемый способ.** Используется [Module Plugin System](https://golangci-lint.run/docs/plugins/module-plugins/).
-
-#### 1. Создайте файл `.custom-gcl.yml` в корне вашего проекта
-
-```yaml
-version: v2.10.1
-
-plugins:
-  - module: 'github.com/manakovpavel/logchecklint'
-    import: 'github.com/manakovpavel/logchecklint'
-    version: v0.1.0
-```
-
-#### 2. Создайте/обновите `.golangci.yml`
-
-```yaml
-version: "2"
-
-linters:
-  default: none
-  enable:
-    - logchecklint
-
-  settings:
-    custom:
-      logchecklint:
-        type: module
-        description: "Linter for checking log messages"
-        original-url: github.com/manakovpavel/logchecklint
-        settings:
-          disable_lowercase_check: false
-          disable_english_check: false
-          disable_special_char_check: false
-          disable_sensitive_check: false
-          custom_sensitive_keywords:
-            - "bank_account"
-            - "internal_id"
-```
-
-#### 3. Соберите и запустите
+Бинарь будет установлен в `$(go env GOPATH)/bin`. Убедитесь, что этот путь добавлен в `PATH`, например:
 
 ```bash
-# Сборка кастомного golangci-lint с плагином
-golangci-lint custom
-
-# Запуск
-./custom-gcl run ./...
+export PATH="$(go env GOPATH)/bin:$PATH"
 ```
+### Запуск на проекте
+
+Из корня Go-модуля:
+
+```bash
+logchecklint ./...
+```
+Линтер принимает те же пути, что и другие Go-инструменты (`./...`, `./cmd/...` и т.д.) и выводит сообщения в формате `file:line:column: message`.
+
+Использование вместе с golangci-lint
+Линтер не встраивается во внутренний список golangci-lint, но может использоваться вместе с ним в одном пайплайне.
+
+### Пример для CI или локального запуска:
+
+```bash
+golangci-lint run ./...
+logchecklint ./...
+```
+Так `golangci-lint` проверяет код стандартными линтерами, а `logchecklint` дополняет его проверками лог-сообщений.
 
 ## Конфигурация
 
@@ -119,7 +91,7 @@ golangci-lint custom
 Для применения авто-исправлений используйте флаг `--fix`:
 
 ```bash
-./custom-gcl run --fix ./...
+logchecklint --fix ./...
 ```
 
 ## Разработка
@@ -137,9 +109,6 @@ make test
 
 # Сборка standalone-бинарника
 make build
-
-# Сборка плагина для golangci-lint
-make build-plugin
 ```
 
 ## Структура проекта
@@ -182,7 +151,7 @@ slog.Info("user authenticated successfully")
 
 ```bash
 cd exampleapp
-../bin/logchecklint ./...
+logchecklint ./...
 ```
 
 Пример вывода:
