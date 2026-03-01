@@ -5,7 +5,7 @@ linters:
   enable:
     - logchecklint
 
-settings:
+linters-settings:
   custom:
     logchecklint:
       type: module
