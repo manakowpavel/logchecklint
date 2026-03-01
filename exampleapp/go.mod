@@ -1,0 +1,9 @@
+module exampleapp
+
+go 1.22
+
+replace github.com/manakovpave/logchecklint => ../
+
+require go.uber.org/zap v1.27.1
+
+require go.uber.org/multierr v1.10.0 // indirect

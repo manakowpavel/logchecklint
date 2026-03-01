@@ -1,0 +1,21 @@
+version: "2"
+
+linters:
+  disable-all: true
+  enable:
+    - logchecklint
+
+linters-settings:
+  custom:
+    logchecklint:
+      type: module
+      description: "Linter for checking log messages"
+      original-url: github.com/manakovpavel/logchecklint
+      settings:
+        disable_lowercase_check: false
+        disable_english_check: false
+        disable_special_char_check: false
+        disable_sensitive_check: false
+        custom_sensitive_keywords:
+          - "bank_account"
+          - "internal_id"
