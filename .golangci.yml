@@ -1,11 +1,11 @@
 version: "2"
 
 linters:
-  disable-all: true
+  default: none
   enable:
     - logchecklint
 
-linters-settings:
+settings:
   custom:
     logchecklint:
       type: module
